@@ -1,17 +1,19 @@
 global_costmap:
   #global_frame: odom
-  global_frame: odom
+  global_frame: base_footprint
   robot_base_frame: base_footprint
   #robot_base_frame: grill_link
-  update_frequency: 20.0
-  publish_frequency: 20.0
-  static_map: true
-  #static_map: false
+  update_frequency: 1.0
+  publish_frequency: 1.0
+  static_map: false
   rolling_window: true
 
-  width: 100
-  height: 100
+  width: 10000
+  height: 10000
 
+  #origin_x: 0.0
+  #origin_y: 0.0
+ 
   transform_tolerance: 0.5
 
   plugins:
