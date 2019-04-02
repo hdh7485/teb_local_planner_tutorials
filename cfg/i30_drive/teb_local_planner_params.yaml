@@ -5,33 +5,35 @@ TebLocalPlannerROS:
  # Trajectory
   
  teb_autosize: True
- dt_ref: 0.3
+ dt_ref: 0.5
  dt_hysteresis: 0.1
  global_plan_overwrite_orientation: True
- allow_init_with_backwards_motion: True
- max_global_plan_lookahead_dist: 3.0
+ allow_init_with_backwards_motion: False
+ #max_global_plan_lookahead_dist: 3.0
+ #max_global_plan_lookahead_dist: 10.0
+ max_global_plan_lookahead_dist: 7.5
  feasibility_check_no_poses: 2
     
  # Robot
          
- max_vel_x: 0.4
+ max_vel_x: 7 # 7m/s = 25.2km/h, default was 0.4m/s
  max_vel_x_backwards: 0.2
  max_vel_y: 0.0
- max_vel_theta: 0.3 # the angular velocity is also bounded by min_turning_radius in case of a carlike robot (r = v / omega)
- acc_lim_x: 0.5
+ max_vel_theta: 1 # default was 0.3 # the angular velocity is also bounded by min_turning_radius in case of a carlike robot (r = v / omega)
+ acc_lim_x: 1 # defualt was 0.5
  acc_lim_theta: 0.5
 
  # ********************** Carlike robot parameters ********************
- min_turning_radius: 0.5        # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
- wheelbase: 0.4                 # Wheelbase of our robot
+ min_turning_radius: 5.3        # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
+ wheelbase: 2.65                 # Wheelbase of our robot
  cmd_angle_instead_rotvel: True # stage simulator takes the angle instead of the rotvel as input (twist message)
  # ********************************************************************
 
  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
    type: "line"
    radius: 0.2 # for type "circular"
-   line_start: [0.0, 0.0] # for type "line"
-   line_end: [0.4, 0.0] # for type "line"
+   line_start: [-0.5, 0.0] # for type "line"
+   line_end: [2.1, 0.0] # for type "line"
    front_offset: 0.2 # for type "two_circles"
    front_radius: 0.2 # for type "two_circles"
    rear_offset: 0.2 # for type "two_circles"
@@ -46,7 +48,7 @@ TebLocalPlannerROS:
     
  # Obstacles
     
- min_obstacle_dist: 0.27 # This value must also include our robot's expansion, since footprint_model is set to "line".
+ min_obstacle_dist: 0.5 # This value must also include our robot's expansion, since footprint_model is set to "line".
  include_costmap_obstacles: True
  costmap_obstacles_behind_robot_dist: 1.0
  obstacle_poses_affected: 30
@@ -60,21 +62,25 @@ TebLocalPlannerROS:
  no_outer_iterations: 4
  optimization_activate: True
  optimization_verbose: False
- penalty_epsilon: 0.1
+ #penalty_epsilon: 0.1
+ penalty_epsilon: 0.01
  weight_max_vel_x: 2
  weight_max_vel_theta: 1
  weight_acc_lim_x: 1
  weight_acc_lim_theta: 1
  weight_kinematics_nh: 1000
- weight_kinematics_forward_drive: 1
+ #weight_kinematics_forward_drive: 1
+ weight_kinematics_forward_drive: 1000
  weight_kinematics_turning_radius: 1
- weight_optimaltime: 1
+ #weight_optimaltime: 1
+ weight_optimaltime: 100
  weight_obstacle: 50
  weight_dynamic_obstacle: 10 # not in use yet
 
  # Homotopy Class Planner
 
- enable_homotopy_class_planning: True
+ #enable_homotopy_class_planning: True
+ enable_homotopy_class_planning: False
  enable_multithreading: True
  simple_exploration: False
  max_number_classes: 4

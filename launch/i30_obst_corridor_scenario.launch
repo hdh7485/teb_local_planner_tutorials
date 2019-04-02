@@ -6,9 +6,9 @@
 
   <!--  ******************* Maps *********************** -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/$(arg map_file).yaml" output="screen">
-    <param name="frame_id" value="map"/>
+    <param name="frame_id" value="odom"/>
   </node>
-  <node pkg="tf" type="static_transform_publisher" name="front_link_broadcaster" args="0 0 0 1.57 0 0 base_link front_link 1" />
+  <!--node pkg="tf" type="static_transform_publisher" name="front_link_broadcaster" args="0 0 0 1.57 0 0 base_link front_link 1" /-->
 
 
     <!-- work around for footprint reload -->
@@ -27,7 +27,7 @@
       <param name="TebLocalPlannerROS/include_dynamic_obstacles" value="True" />
 
       <param name="base_global_planner" value="navfn/NavfnROS" />
-      <param name="planner_frequency" value="1.0" />
+      <param name="planner_frequency" value="5.0" />
       <param name="planner_patience" value="5.0" />
 
       <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
