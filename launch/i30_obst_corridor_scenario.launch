@@ -28,11 +28,11 @@
       <param name="TebLocalPlannerROS/include_dynamic_obstacles" value="True" />
 
       <param name="base_global_planner" value="navfn/NavfnROS" />
-      <param name="planner_frequency" value="10.0" />
+      <param name="planner_frequency" value="30.0" />
       <param name="planner_patience" value="10.0" />
 
       <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-      <param name="controller_frequency" value="10.0" />
+      <param name="controller_frequency" value="30.0" />
       <param name="controller_patience" value="10.0" />
       <remap from="map" to="/map"/>
     </node>
