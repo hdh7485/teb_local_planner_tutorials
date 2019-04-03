@@ -376,7 +376,7 @@ Visualization Manager:
   Global Options:
     Background Color: 255; 255; 255
     Default Light: true
-    Fixed Frame: base_footprint
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -397,7 +397,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 63.5549316
+      Distance: 191.07959
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
