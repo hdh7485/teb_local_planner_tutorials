@@ -1,7 +1,6 @@
 global_costmap:
   global_frame: base_footprint
   #global_frame: odom
-  goal_frame: odom
   robot_base_frame: base_footprint
   #robot_base_frame: grill_link
   update_frequency: 30.0
