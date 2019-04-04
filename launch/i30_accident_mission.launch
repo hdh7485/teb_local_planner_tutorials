@@ -1,16 +1,16 @@
 <launch>
   <arg name="map_file"  default="corridor_resize"/>
 
-  <include file="$(find velodyne_pointcloud)/launch/multi_VLP16.launch" />
-  <include file="$(find my_pcl_tutorial)/launch/merge_pointcloud_hdh.launch"/>
+  <!--include file="$(find velodyne_pointcloud)/launch/multi_VLP16.launch" />
+  <include file="$(find my_pcl_tutorial)/launch/merge_pointcloud_hdh.launch"/-->
   <include file="$(find lcm_to_ros)/launch/LCMROS.launch"/>
   <include file="$(find velodyne_height_map)/launch/heightmap_i30.launch"/>
 
   <node pkg="teb_local_planner_tutorials" type="cmd_vel_to_ackermann_drive.py" name="cmd_vel2ackermann" />
 
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/$(arg map_file).yaml" output="screen">
+  <!--node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/$(arg map_file).yaml" output="screen">
     <param name="frame_id" value="odom"/>
-  </node>
+  </node-->
 
   <node pkg="teb_local_planner_tutorials" type="publish_goal.py" name="publish_goal" />
 
