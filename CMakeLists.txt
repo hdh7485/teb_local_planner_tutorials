@@ -5,6 +5,9 @@ project(teb_local_planner_tutorials)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  pcl_conversions
+  pcl_ros
+  lcm_to_ros
   move_base_msgs 
   actionlib 
   roscpp	
@@ -66,10 +69,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+  DEPENDENCIES 
+  lcm_to_ros
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -104,7 +107,10 @@ catkin_package(
   #INCLUDE_DIRS
   LIBRARIES teb_local_planner_tutorials
   CATKIN_DEPENDS 
+    pcl_conversions
+    pcl_ros
     move_base_msgs 
+    lcm_to_ros
     actionlib 
     roscpp
     tf
@@ -139,6 +145,9 @@ target_link_libraries(simple_navigation_goals ${catkin_LIBRARIES})
 
 add_executable(publish_static_goal src/publish_static_goal.cpp)
 target_link_libraries(publish_static_goal ${catkin_LIBRARIES})
+
+add_executable(collision_check src/collision_check.cpp)
+target_link_libraries(collision_check ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(teb_local_planner_tutorials_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
