@@ -5,11 +5,15 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Local Planner1
+        - /Global Planner1
         - /Global Planner1/GlobalCostmap1
         - /Robot1/Robot Footprint1
         - /Obstacle1/Footprint estimation1
         - /Obstacle1/Marker1
         - /TF1/Frames1
+        - /Path1
+        - /PointCloud22
       Splitter Ratio: 0.605095983
     Tree Height: 555
   - Class: rviz/Selection
@@ -77,7 +81,8 @@ Visualization Manager:
           Marker Topic: /move_base/TebLocalPlannerROS/teb_markers
           Name: TebMarker
           Namespaces:
-            {}
+            PointObstacles: true
+            RobotFootprintModel: true
           Queue Size: 100
           Value: true
         - Alpha: 1
@@ -107,12 +112,12 @@ Visualization Manager:
           Class: rviz/Map
           Color Scheme: costmap
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: LocalCostmap
           Topic: /move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -174,12 +179,12 @@ Visualization Manager:
           Class: rviz/Map
           Color Scheme: map
           Draw Behind: true
-          Enabled: true
+          Enabled: false
           Name: GlobalCostmap
           Topic: /move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
-          Value: true
+          Value: false
       Enabled: true
       Name: Global Planner
     - Class: rviz/Group
@@ -323,6 +328,10 @@ Visualization Manager:
           Value: true
         left_laser_link:
           Value: true
+        odom:
+          Value: true
+        rear_laser_link:
+          Value: true
         right_laser_link:
           Value: true
       Marker Scale: 5
@@ -331,15 +340,18 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        gps_frame:
-          base_footprint:
-            center_laser_link:
-              left_laser_link:
+        odom:
+          gps_frame:
+            base_footprint:
+              center_laser_link:
+                left_laser_link:
+                  {}
+                rear_laser_link:
+                  {}
+                right_laser_link:
+                  {}
+              grill_link:
                 {}
-              right_laser_link:
-                {}
-            grill_link:
-              {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -372,11 +384,64 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 0; 127
+      Enabled: true
+      Head Diameter: 0.300000012
+      Head Length: 0.200000003
+      Length: 0.300000012
+      Line Style: Billboards
+      Line Width: 0.100000001
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.0299999993
+      Shaft Diameter: 0.100000001
+      Shaft Length: 0.100000001
+      Topic: /lcm_to_ros/LCM2ROS_local_coor_wpt
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 0
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.200000003
+      Style: Flat Squares
+      Topic: /velodyne_obstacles
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255
     Default Light: true
-    Fixed Frame: odom
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
   Tools:
@@ -397,16 +462,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 191.07959
+      Distance: 38.7024384
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 7.24277496
-        Y: -11.8028326
-        Z: 0.0470240973
+        X: 8.25725174
+        Y: -5.36306095
+        Z: 0.0479018837
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false

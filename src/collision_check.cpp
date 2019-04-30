@@ -36,6 +36,9 @@ private:
   std::vector<point_2d> path_vec_;
   std_msgs::Bool collision_result_;
   int mission_num_;
+  geometry_msgs::PoseStamped goal_msg_;
+  double goal_x_;
+  double goal_y_;
 
   ros::NodeHandle nh_;
   ros::NodeHandle nh;
@@ -43,15 +46,27 @@ private:
   ros::Subscriber path_sub_;
   ros::Subscriber mission_num_sub_;
   ros::Publisher collision_pub_;
+  ros::Publisher goal_pub_;
 
 public:
   CollisionChecker():nh_("~") {
+    nh_.param("goal_x", goal_x_, 614.0);
+    nh_.param("goal_y", goal_y_, -555.0);
+    nh_.param("coliision_distance", collision_distance_, 0.7);
+    goal_msg_.header.frame_id = "odom";
+    goal_msg_.pose.position.x = goal_x_;
+    goal_msg_.pose.position.y = goal_y_;
+    goal_msg_.pose.orientation.w = 1.0;
+    goal_msg_.pose.orientation.x = 0.0;
+    goal_msg_.pose.orientation.y = 0.0;
+    goal_msg_.pose.orientation.z = 0.0;
+
     obstacle_sub_ = nh.subscribe<sensor_msgs::PointCloud2>("/velodyne_obstacles", 10, &CollisionChecker::obsCallback, this);
     path_sub_ = nh.subscribe<nav_msgs::Path>("/lcm_to_ros/LCM2ROS_local_coor_wpt", 10, &CollisionChecker::pathCallback, this);
     mission_num_sub_ = nh.subscribe<lcm_to_ros::hyundai_mission>("/lcm_to_ros/LCM2ROS_mission", 10, &CollisionChecker::missionNumCallback, this);
-    collision_distance_ = 0.7;
 
     collision_pub_ = nh.advertise<std_msgs::Bool>("/collision_check", 10);
+    goal_pub_ = nh.advertise<geometry_msgs::PoseStamped>("/rviz_goal", 10);
   }
   
   void pathCallback(const nav_msgs::Path::ConstPtr& path_msg) {
@@ -108,6 +123,7 @@ public:
         ROS_DEBUG("%lf", distance);
         if(distance < collision_distance_) {
           ROS_INFO("COLLISION!!");
+          goal_pub_.publish(goal_msg_);
           return true;
         }
       }

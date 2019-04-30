@@ -23,7 +23,7 @@ def time_callback(event):
     #rospy.loginfo(origin_pose)
 
 if __name__ == "__main__":
-    rospy.init_node('goal_republisher', anonymous=True)
+    rospy.init_node('publish_goal', anonymous=True)
     pub = rospy.Publisher('move_base_simple/goal', PoseStamped, queue_size=100)
     rospy.Subscriber('/rviz_goal', PoseStamped, pose_callback)
     #rospy.Timer(rospy.Duration(0.01), time_callback)
