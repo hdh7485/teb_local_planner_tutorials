@@ -47,23 +47,27 @@ private:
 public:
   CollisionChecker():nh_("~") {
     obstacle_sub_ = nh.subscribe<sensor_msgs::PointCloud2>("/velodyne_obstacles", 10, &CollisionChecker::obsCallback, this);
-    path_sub_ = nh.subscribe<nav_msgs::Path>("/local_coor_wpt_l2r", 10, &CollisionChecker::pathCallback, this);
-    mission_num_sub_ = nh.subscribe<lcm_to_ros::hyundai_mission>("/LCM2ROS_mission", 10, &CollisionChecker::missionNumCallback, this);
+    path_sub_ = nh.subscribe<nav_msgs::Path>("/lcm_to_ros/LCM2ROS_local_coor_wpt", 10, &CollisionChecker::pathCallback, this);
+    mission_num_sub_ = nh.subscribe<lcm_to_ros::hyundai_mission>("/lcm_to_ros/LCM2ROS_mission", 10, &CollisionChecker::missionNumCallback, this);
+    collision_distance_ = 0.7;
 
     collision_pub_ = nh.advertise<std_msgs::Bool>("/collision_check", 10);
   }
   
   void pathCallback(const nav_msgs::Path::ConstPtr& path_msg) {
+    ROS_DEBUG("path callback");
     subscribed_local_path_ = *path_msg;
     collision_result_.data = (isCollision() && mission_num_ == 8);
     collision_pub_.publish(collision_result_);
   }
 
   void missionNumCallback(const lcm_to_ros::hyundai_mission::ConstPtr& mission_msg) {
+    ROS_DEBUG("mission callback");
     mission_num_ = mission_msg->mission_number;
   }
 
   void obsCallback(const sensor_msgs::PointCloud2::ConstPtr& cloud_msg) {
+    ROS_DEBUG("obs callback");
     obs_vec_.clear();
 
     // Container for original & filtered data
@@ -89,7 +93,8 @@ public:
   }
 
   bool isCollision() {
-    int path_length = sizeof(subscribed_local_path_.poses)/sizeof(subscribed_local_path_.poses[0]);
+    int path_length = subscribed_local_path_.poses.size();
+    ROS_DEBUG("%lu, %lu, %lu", sizeof(subscribed_local_path_.poses), sizeof(subscribed_local_path_.poses[0]), obs_vec_.size());
 
     for(int path_index = 0; path_index < path_length; path_index++) {
       double path_point_x = subscribed_local_path_.poses[path_index].pose.position.x;
@@ -100,7 +105,9 @@ public:
         double obstacle_point_y = obs_vec_.at(obstacle_index).y;
 
         double distance = std::sqrt(std::pow(path_point_x - obstacle_point_x, 2) + std::pow(path_point_y - obstacle_point_y, 2));
+        ROS_DEBUG("%lf", distance);
         if(distance < collision_distance_) {
+          ROS_INFO("COLLISION!!");
           return true;
         }
       }
