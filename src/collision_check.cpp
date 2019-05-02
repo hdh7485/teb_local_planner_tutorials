@@ -40,6 +40,7 @@ private:
   geometry_msgs::PoseStamped goal_msg_;
   double goal_x_;
   double goal_y_;
+  double goal_tolerance_;
 
   ros::NodeHandle nh_;
   ros::NodeHandle nh;
@@ -47,6 +48,7 @@ private:
   ros::Subscriber path_sub_;
   ros::Subscriber mission_num_sub_;
   ros::Publisher collision_pub_;
+  ros::Publisher goal_arrived_pub_;
   ros::Publisher goal_pub_;
 
 public:
@@ -55,6 +57,8 @@ public:
     nh_.param("goal_y", goal_y_, -555.0);
     nh_.param("coliision_distance", collision_distance_, 0.7);
     nh_.param("accident_mission_num", accident_mission_num_, 5);
+    nh_.param("goal_tolerance", goal_tolerance_, 3.0);
+
     goal_msg_.header.frame_id = "odom";
     goal_msg_.pose.position.x = goal_x_;
     goal_msg_.pose.position.y = goal_y_;
@@ -68,6 +72,7 @@ public:
     mission_num_sub_ = nh.subscribe<lcm_to_ros::hyundai_mission>("/lcm_to_ros/LCM2ROS_mission", 10, &CollisionChecker::missionNumCallback, this);
 
     collision_pub_ = nh.advertise<std_msgs::Bool>("/collision_check", 10);
+    goal_arrived_pub_ = nh.advertise<std_msgs::Bool>("/goal_arrived", 10);
     goal_pub_ = nh.advertise<geometry_msgs::PoseStamped>("/rviz_goal", 10);
   }
   
@@ -81,6 +86,13 @@ public:
   void missionNumCallback(const lcm_to_ros::hyundai_mission::ConstPtr& mission_msg) {
     ROS_DEBUG("mission callback");
     subscribed_mission_num_ = mission_msg->mission_number;
+    double current_pos_x = mission_msg->pos_x;
+    double current_pos_y = mission_msg->pos_y;
+    double distance = std::sqrt(std::pow(current_pos_x - goal_x_, 2) + std::pow(current_pos_y - goal_y_, 2));
+
+    std_msgs::Bool is_goal_arrived;
+    is_goal_arrived.data = distance < goal_tolerance_;
+    goal_arrived_pub_.publish(is_goal_arrived);
   }
 
   void obsCallback(const sensor_msgs::PointCloud2::ConstPtr& cloud_msg) {

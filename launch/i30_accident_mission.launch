@@ -8,8 +8,8 @@
 
   <node pkg="teb_local_planner_tutorials" type="cmd_vel_to_ackermann_drive.py" name="cmd_vel2ackermann" />
   <node pkg="teb_local_planner_tutorials" type="collision_check" name="collision_check" >
-    <param name="goal_x" value="473.341" />
-    <param name="goal_y" value="-925.242" />
+    <param name="goal_x" value="-677.5085" />
+    <param name="goal_y" value="4643.3402" />
     <param name="collision_distance" value="0.7" />
   </node>
 
