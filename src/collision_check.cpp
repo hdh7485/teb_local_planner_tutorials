@@ -35,7 +35,8 @@ private:
   std::vector<point_2d> obs_vec_;
   std::vector<point_2d> path_vec_;
   std_msgs::Bool collision_result_;
-  int mission_num_;
+  int subscribed_mission_num_;
+  int accident_mission_num_;
   geometry_msgs::PoseStamped goal_msg_;
   double goal_x_;
   double goal_y_;
@@ -53,6 +54,7 @@ public:
     nh_.param("goal_x", goal_x_, 614.0);
     nh_.param("goal_y", goal_y_, -555.0);
     nh_.param("coliision_distance", collision_distance_, 0.7);
+    nh_.param("accident_mission_num", accident_mission_num_, 5);
     goal_msg_.header.frame_id = "odom";
     goal_msg_.pose.position.x = goal_x_;
     goal_msg_.pose.position.y = goal_y_;
@@ -72,13 +74,13 @@ public:
   void pathCallback(const nav_msgs::Path::ConstPtr& path_msg) {
     ROS_DEBUG("path callback");
     subscribed_local_path_ = *path_msg;
-    collision_result_.data = (isCollision() && mission_num_ == 8);
+    collision_result_.data = (isCollision() && subscribed_mission_num_ == accident_mission_num_);
     collision_pub_.publish(collision_result_);
   }
 
   void missionNumCallback(const lcm_to_ros::hyundai_mission::ConstPtr& mission_msg) {
     ROS_DEBUG("mission callback");
-    mission_num_ = mission_msg->mission_number;
+    subscribed_mission_num_ = mission_msg->mission_number;
   }
 
   void obsCallback(const sensor_msgs::PointCloud2::ConstPtr& cloud_msg) {
