@@ -29,7 +29,9 @@ typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
 class CollisionChecker {
 private:
-  double collision_distance_;
+  double collision_distance_path_threshold_;
+  double collision_distance_car_threshold_;
+
   nav_msgs::Path subscribed_local_path_;
   sensor_msgs::PointCloud2 subscribed_map_;
   std::vector<point_2d> obs_vec_;
@@ -55,7 +57,8 @@ public:
   CollisionChecker():nh_("~") {
     nh_.param("goal_x", goal_x_, 614.0);
     nh_.param("goal_y", goal_y_, -555.0);
-    nh_.param("coliision_distance", collision_distance_, 0.7);
+    nh_.param("collision_distance_from_path", collision_distance_path_threshold_, 0.7);
+    nh_.param("collision_distance_from_car", collision_distance_car_threshold_, 10.0);
     nh_.param("accident_mission_num", accident_mission_num_, 5);
     nh_.param("goal_tolerance", goal_tolerance_, 3.0);
 
@@ -133,12 +136,15 @@ public:
         double obstacle_point_x = obs_vec_.at(obstacle_index).x;
         double obstacle_point_y = obs_vec_.at(obstacle_index).y;
 
-        double distance = std::sqrt(std::pow(path_point_x - obstacle_point_x, 2) + std::pow(path_point_y - obstacle_point_y, 2));
-        ROS_DEBUG("%lf", distance);
-        if(distance < collision_distance_) {
-          ROS_INFO("COLLISION!!");
-          goal_pub_.publish(goal_msg_);
-          return true;
+        double distance_from_path = std::sqrt(std::pow(path_point_x - obstacle_point_x, 2) + std::pow(path_point_y - obstacle_point_y, 2));
+        ROS_DEBUG("%lf", distance_from_path);
+        if(distance_from_path < collision_distance_path_threshold_) {
+          double distance_from_car = std::sqrt(std::pow(0 - obstacle_point_x, 2) + std::pow(0 - obstacle_point_y, 2));
+          if(distance_from_car < collision_distance_car_threshold_) {
+            ROS_INFO("COLLISION!!");
+            goal_pub_.publish(goal_msg_);
+            return true;
+          }
         }
       }
     }
