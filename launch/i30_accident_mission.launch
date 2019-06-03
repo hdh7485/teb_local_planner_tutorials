@@ -1,8 +1,6 @@
 <launch>
-  <arg name="map_file"  default="corridor_resize"/>
 
   <node pkg="csv_to_map" type="add_points_in_localmap.py" name="add_points_in_localmap" />
-  <node pkg="teb_local_planner_tutorials" type="cmd_vel_to_ackermann_drive.py" name="cmd_vel2ackermann" />
   <node pkg="teb_local_planner_tutorials" type="collision_check" name="collision_check" >
     <!--param name="goal_x" value="-677.5085" />
     <param name="goal_y" value="4643.3402" /-->
@@ -13,16 +11,9 @@
     <param name="accident_mission_num" value="6" />
   </node>
 
-  <!--node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/$(arg map_file).yaml" output="screen">
-    <param name="frame_id" value="odom"/>
-  </node-->
-
   <node pkg="teb_local_planner_tutorials" type="publish_goal.py" name="publish_goal" />
 
   <param name="/use_sim_time" value="false"/>
-
-
-  <!-- work around for footprint reload -->
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find teb_local_planner_tutorials)/cfg/i30_drive/costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -30,9 +21,6 @@
     <rosparam file="$(find teb_local_planner_tutorials)/cfg/i30_drive/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find teb_local_planner_tutorials)/cfg/i30_drive/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find teb_local_planner_tutorials)/cfg/i30_drive/teb_local_planner_params.yaml" command="load" />
-    <!-- Here we load our costmap conversion settings -->
-    <!-- If you active the following line, disable 'ground_truth_obstacles' at the bottom of this script! -->
-    <!-- rosparam file="$(find teb_local_planner_tutorials)/cfg/diff_drive/costmap_converter_params.yaml" command="load" /-->
     <param name="TebLocalPlannerROS/include_costmap_obstacles" value="True" />
     <param name="TebLocalPlannerROS/include_dynamic_obstacles" value="True" />
 
@@ -43,7 +31,6 @@
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
     <param name="controller_frequency" value="30.0" />
     <param name="controller_patience" value="10.0" />
-    <remap from="map" to="/map"/>
   </node>
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find teb_local_planner_tutorials)/cfg/rviz_navigation_cc.rviz">
