@@ -19,5 +19,5 @@ global_costmap:
 
   plugins:
     - {name: global_static_layer,            type: "costmap_2d::StaticLayer"}
-    - {name: global_csv_static_layer,        type: "costmap_2d::StaticLayer"}
+ #   - {name: global_csv_static_layer,        type: "costmap_2d::StaticLayer"}
     - {name: global_inflation_layer,         type: "costmap_2d::InflationLayer"}
