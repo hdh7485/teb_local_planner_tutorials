@@ -3,15 +3,21 @@
   <node pkg="csv_to_map" type="add_points_in_localmap.py" name="add_points_in_localmap" />
   <node pkg="teb_local_planner_tutorials" type="collision_check" name="collision_check" >
     <!--jaundae-->
-    <param name="goal_x" value="-677.5085" />
-    <param name="goal_y" value="4643.3402" />
+    <!--param name="goal_x" value="-677.5085" />
+    <param name="goal_y" value="4643.3402" /-->
 
     <!--k_city-->
     <!--param name="goal_x" value="75.5867" />
     <param name="goal_y" value="211.17" /-->
 
+    <!--kaist parking lot-->
+    <param name="goal_x" value="340.5867" />
+    <param name="goal_y" value="-852.8" />
+
+    <param name="collision_continuation_threshold" value="7" />
     <param name="collision_distance_from_path" value="0.7" />
     <param name="collision_distance_from_car" value="30.0" />
+
     <param name="accident_mission_num" value="6" />
   </node>
 
@@ -35,6 +41,7 @@
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
     <param name="controller_frequency" value="30.0" />
     <param name="controller_patience" value="10.0" />
+    <!--remap from="map" to="/map" /-->
   </node>
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find teb_local_planner_tutorials)/cfg/rviz_navigation_cc.rviz">

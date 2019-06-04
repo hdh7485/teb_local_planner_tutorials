@@ -27,6 +27,26 @@ typedef pcl::PointXYZRGB RGBPoint;
 typedef pcl::PointCloud<RGBPoint> RGBPointCloud;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
+
+class Counter {
+private: 
+  int counter_;
+public:
+  Counter(): counter_(0){}
+  void count() {
+    counter_++;
+  }
+  void count(int n) {
+    counter_ += n;
+  }
+  int get_count() {
+    return counter_;
+  }
+  void count_init() {
+    counter_ = 0;
+  }
+};
+
 class CollisionChecker {
 private:
   double collision_distance_path_threshold_;
@@ -43,6 +63,9 @@ private:
   double goal_x_;
   double goal_y_;
   double goal_tolerance_;
+
+  Counter counter;
+  int collision_continuation_threshold_;
 
   ros::NodeHandle nh_;
   ros::NodeHandle nh;
@@ -61,6 +84,7 @@ public:
     nh_.param("collision_distance_from_car", collision_distance_car_threshold_, 10.0);
     nh_.param("accident_mission_num", accident_mission_num_, 5);
     nh_.param("goal_tolerance", goal_tolerance_, 3.0);
+    nh_.param("collision_continuation_threshold", collision_continuation_threshold_, 1);
 
     goal_msg_.header.frame_id = "odom";
     goal_msg_.pose.position.x = goal_x_;
@@ -142,8 +166,14 @@ public:
           double distance_from_car = std::sqrt(std::pow(0 - obstacle_point_x, 2) + std::pow(0 - obstacle_point_y, 2));
           if(distance_from_car < collision_distance_car_threshold_) {
             ROS_INFO("COLLISION!!");
-            goal_pub_.publish(goal_msg_);
-            return true;
+            counter.count();
+            if(counter.get_count() > collision_continuation_threshold_) {
+              goal_pub_.publish(goal_msg_);
+              return true;
+            }
+            else {
+              counter.count_init();
+            }
           }
         }
       }
