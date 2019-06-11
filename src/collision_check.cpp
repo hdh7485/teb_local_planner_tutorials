@@ -166,18 +166,18 @@ public:
           double distance_from_car = std::sqrt(std::pow(0 - obstacle_point_x, 2) + std::pow(0 - obstacle_point_y, 2));
           if(distance_from_car < collision_distance_car_threshold_) {
             ROS_INFO("COLLISION!!");
+            ROS_INFO("%d", counter.get_count());
             counter.count();
             if(counter.get_count() > collision_continuation_threshold_) {
               goal_pub_.publish(goal_msg_);
+              ROS_INFO("PUBLISH GOAL!!");
               return true;
-            }
-            else {
-              counter.count_init();
             }
           }
         }
       }
     }
+    counter.count_init();
     return false;
   }
 };
