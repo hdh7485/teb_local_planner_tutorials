@@ -1,7 +1,7 @@
 <launch>
 
   <node pkg="csv_to_map" type="add_points_in_localmap.py" name="add_points_in_localmap" />
-  <node pkg="teb_local_planner_tutorials" type="collision_check" name="collision_check" >
+  <node pkg="teb_local_planner_tutorials" type="collision_check" name="collision_check" output="screen" >
     <!--jaundae-->
     <!--param name="goal_x" value="-677.5085" />
     <param name="goal_y" value="4643.3402" /-->
@@ -11,8 +11,8 @@
     <param name="goal_y" value="211.17" /-->
 
     <!--kaist parking lot-->
-    <param name="goal_x" value="340.5867" />
-    <param name="goal_y" value="-852.8" />
+    <param name="goal_x" value="320.5867" />
+    <param name="goal_y" value="-830.8" />
 
     <param name="collision_continuation_threshold" value="7" />
     <param name="collision_distance_from_path" value="0.7" />
