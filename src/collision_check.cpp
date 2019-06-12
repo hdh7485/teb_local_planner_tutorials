@@ -4,6 +4,7 @@
 #include <std_msgs/Bool.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <lcm_to_ros/hyundai_mission.h>
+#include <tf2/LinearMath/Quaternion.h>
 
 // pcl
 //#include <pcl_conversions/pcl_conversions.h>
@@ -62,6 +63,7 @@ private:
   geometry_msgs::PoseStamped goal_msg_;
   double goal_x_;
   double goal_y_;
+  double goal_theta_;
   double goal_tolerance_;
 
   Counter counter;
@@ -80,6 +82,7 @@ public:
   CollisionChecker():nh_("~") {
     nh_.param("goal_x", goal_x_, 614.0);
     nh_.param("goal_y", goal_y_, -555.0);
+    nh_.param("goal_theta", goal_theta_, 0.0);
     nh_.param("collision_distance_from_path", collision_distance_path_threshold_, 0.7);
     nh_.param("collision_distance_from_car", collision_distance_car_threshold_, 10.0);
     nh_.param("accident_mission_num", accident_mission_num_, 5);
@@ -89,6 +92,10 @@ public:
     goal_msg_.header.frame_id = "odom";
     goal_msg_.pose.position.x = goal_x_;
     goal_msg_.pose.position.y = goal_y_;
+
+    tf2::Quaternion rpy_to_quater;
+    rpy_to_quater.setRPY(0, 0, goal_theta_);
+    //goal_msg_.pose.orientation = rpy_to_quater;
     goal_msg_.pose.orientation.w = 1.0;
     goal_msg_.pose.orientation.x = 0.0;
     goal_msg_.pose.orientation.y = 0.0;
@@ -110,8 +117,10 @@ public:
     collision_result_.data = (isCollision() && subscribed_mission_num_ == accident_mission_num_);
     collision_pub_.publish(collision_result_);
 
-    if(collision_result_.data)
+    if(collision_result_.data) {
       goal_pub_.publish(goal_msg_);
+      ROS_INFO("PUBLISH GOAL!!");
+    }
   }
 
   void missionNumCallback(const lcm_to_ros::hyundai_mission::ConstPtr& mission_msg) {
@@ -174,7 +183,6 @@ public:
             counter.count();
             if(counter.get_count() > collision_continuation_threshold_) {
               //goal_pub_.publish(goal_msg_);
-              ROS_INFO("PUBLISH GOAL!!");
               return true;
             }
           }

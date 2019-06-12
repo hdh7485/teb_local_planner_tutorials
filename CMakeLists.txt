@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib 
   roscpp	
   tf
+  tf2
 )
 
 ## System dependencies are found with CMake's conventions
@@ -114,6 +115,7 @@ catkin_package(
     actionlib 
     roscpp
     tf
+    tf2
   DEPENDS system_lib
 )
 

@@ -25,6 +25,7 @@
   <depend>actionlib</depend>
   <depend>roscpp</depend>
   <depend>tf</depend>
+  <depend>tf2</depend>
   <depend>lcm_to_ros</depend>
 
 
