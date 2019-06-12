@@ -21,7 +21,7 @@
     <param name="accident_mission_num" value="6" />
   </node>
 
-  <node pkg="teb_local_planner_tutorials" type="publish_goal.py" name="publish_goal" />
+  <node pkg="teb_local_planner_tutorials" type="publish_goal.py" name="publish_goal" output="screen" />
 
   <param name="/use_sim_time" value="false"/>
 

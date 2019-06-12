@@ -106,8 +106,12 @@ public:
   void pathCallback(const nav_msgs::Path::ConstPtr& path_msg) {
     ROS_DEBUG("path callback");
     subscribed_local_path_ = *path_msg;
+
     collision_result_.data = (isCollision() && subscribed_mission_num_ == accident_mission_num_);
     collision_pub_.publish(collision_result_);
+
+    if(collision_result_.data)
+      goal_pub_.publish(goal_msg_);
   }
 
   void missionNumCallback(const lcm_to_ros::hyundai_mission::ConstPtr& mission_msg) {
@@ -169,7 +173,7 @@ public:
             ROS_INFO("%d", counter.get_count());
             counter.count();
             if(counter.get_count() > collision_continuation_threshold_) {
-              goal_pub_.publish(goal_msg_);
+              //goal_pub_.publish(goal_msg_);
               ROS_INFO("PUBLISH GOAL!!");
               return true;
             }
