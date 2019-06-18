@@ -5,6 +5,7 @@
 #include <sensor_msgs/PointCloud2.h>
 #include <lcm_to_ros/hyundai_mission.h>
 #include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 // pcl
 //#include <pcl_conversions/pcl_conversions.h>
@@ -94,12 +95,14 @@ public:
     goal_msg_.pose.position.y = goal_y_;
 
     tf2::Quaternion rpy_to_quater;
+    geometry_msgs::Quaternion quat_msg;
     rpy_to_quater.setRPY(0, 0, goal_theta_);
-    //goal_msg_.pose.orientation = rpy_to_quater;
-    goal_msg_.pose.orientation.w = 1.0;
-    goal_msg_.pose.orientation.x = 0.0;
-    goal_msg_.pose.orientation.y = 0.0;
-    goal_msg_.pose.orientation.z = 0.0;
+    quat_msg = tf2::toMsg(rpy_to_quater);
+    goal_msg_.pose.orientation = quat_msg;
+    //goal_msg_.pose.orientation.w = 1.0;
+    //goal_msg_.pose.orientation.x = 0.0;
+    //goal_msg_.pose.orientation.y = 0.0;
+    //goal_msg_.pose.orientation.z = 0.0;
 
     obstacle_sub_ = nh.subscribe<sensor_msgs::PointCloud2>("/velodyne_obstacles", 10, &CollisionChecker::obsCallback, this);
     path_sub_ = nh.subscribe<nav_msgs::Path>("/lcm_to_ros/LCM2ROS_local_coor_wpt", 10, &CollisionChecker::pathCallback, this);
