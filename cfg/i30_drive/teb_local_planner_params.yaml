@@ -15,7 +15,8 @@ TebLocalPlannerROS:
  max_global_plan_lookahead_dist: 10.0
  #max_global_plan_lookahead_dist: 7.5
  #max_global_plan_lookahead_dist: 3.0
- feasibility_check_no_poses: 2
+ #feasibility_check_no_poses: 2
+ feasibility_check_no_poses: 5
     
  # Robot
          
@@ -35,14 +36,29 @@ TebLocalPlannerROS:
 
  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
    type: "line"
-   radius: 0.2 # for type "circular"
-   line_start: [-2.0, 0.0] # for type "line"
-   line_end: [0.65, 0.0] # for type "line"
-   front_offset: 0.2 # for type "two_circles"
-   front_radius: 0.2 # for type "two_circles"
-   rear_offset: 0.2 # for type "two_circles"
-   rear_radius: 0.2 # for type "two_circles"
-   vertices: [ [0.25, -0.05], [0.18, -0.05], [0.18, -0.18], [-0.19, -0.18], [-0.25, 0], [-0.19, 0.18], [0.18, 0.18], [0.18, 0.05], [0.25, 0.05] ] # for type "polygon"
+   line_start: [0.0, 0.0] # for type "line"
+   line_end: [2.8, 0.0] # for type "line"
+
+# footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+#   type: "line"
+#   line_start: [-2.0, 0.0] # for type "line"
+#   line_end: [0.65, 0.0] # for type "line"
+#   front_offset: 0.2 # for type "two_circles"
+#   front_radius: 0.2 # for type "two_circles"
+#   rear_offset: 0.2 # for type "two_circles"
+#   rear_radius: 0.2 # for type "two_circles"
+#   vertices: [ [0.25, -0.05], [0.18, -0.05], [0.18, -0.18], [-0.19, -0.18], [-0.25, 0], [-0.19, 0.18], [0.18, 0.18], [0.18, 0.05], [0.25, 0.05] ] # for type "polygon"
+
+# footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+#   type: "two_circles"
+#   radius: 0.2 # for type "circular"
+#   line_start: [-2.0, 0.0] # for type "line"
+#   line_end: [0.65, 0.0] # for type "line"
+#   front_offset: 0.2 # for type "two_circles"
+#   front_radius: 0.2 # for type "two_circles"
+#   rear_offset: 0.2 # for type "two_circles"
+#   rear_radius: 0.2 # for type "two_circles"
+#   vertices: [ [0.25, -0.05], [0.18, -0.05], [0.18, -0.18], [-0.19, -0.18], [-0.25, 0], [-0.19, 0.18], [0.18, 0.18], [0.18, 0.05], [0.25, 0.05] ] # for type "polygon"
 
  # GoalTolerance
     
@@ -81,7 +97,7 @@ TebLocalPlannerROS:
  weight_kinematics_nh: 1000
  #weight_kinematics_forward_drive: 1
  #weight_kinematics_forward_drive: 1000
- weight_kinematics_forward_drive: 550
+ weight_kinematics_forward_drive: 500
  weight_kinematics_turning_radius: 1
  #weight_optimaltime: 1
  weight_optimaltime: 100
