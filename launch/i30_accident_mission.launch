@@ -7,20 +7,21 @@
     <param name="goal_y" value="4643.3402" /-->
 
     <!--jaundae parking lot-->
-    <param name="goal_x" value="-376.689" />
-    <param name="goal_y" value="4660.43" />
+    <!--param name="goal_x" value="-376.689" />
+    <param name="goal_y" value="4660.43" /-->
 
     <!--k_city-->
-    <!--param name="goal_x" value="75.5867" />
-    <param name="goal_y" value="211.17" /-->
+    <param name="goal_x" value="75.5867" />
+    <param name="goal_y" value="211.17" />
+    <param name="goal_theta" value="3.14" />
 
     <!--kaist parking lot-->
     <!--param name="goal_x" value="320.8867" />
     <param name="goal_y" value="-845.8" /-->
 
-    <param name="collision_continuation_threshold" value="7" />
-    <param name="collision_distance_from_path" value="0.7" />
-    <param name="collision_distance_from_car" value="30.0" />
+    <param name="collision_continuation_threshold" value="3" />
+    <param name="collision_distance_from_path" value="1.0" />
+    <param name="collision_distance_from_car" value="50.0" />
 
     <param name="accident_mission_num" value="6" />
   </node>
