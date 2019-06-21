@@ -22,7 +22,7 @@ obstacle_layer:
 
 global_inflation_layer:
   enabled:              true
-  cost_scaling_factor:  0.3  # exponential rate at which the obstacle cost drops off (default: 10)
+  cost_scaling_factor:  0.8  # exponential rate at which the obstacle cost drops off (default: 10)
   inflation_radius:     2.0  # max. distance from an obstacle at which costs are incurred for planning paths.
   #inflation_radius:     3.0  # max. distance from an obstacle at which costs are incurred for planning paths.
 
@@ -34,13 +34,13 @@ local_inflation_layer:
 
 local_static_layer:
   enabled:              true
-  map_topic:            "/local_map"
-  #map_topic:            "/csv_override_map"
+  #map_topic:            "/local_map"
+  map_topic:            "/csv_override_map"
   track_unknown_space:  false
 
 global_static_layer:
   enabled:              true
   #map_topic:            "/map"
-  map_topic:            "/local_map"
-  #map_topic:            "/csv_override_map"
+  #map_topic:            "/local_map"
+  map_topic:            "/csv_override_map"
   track_unknown_space:  false
