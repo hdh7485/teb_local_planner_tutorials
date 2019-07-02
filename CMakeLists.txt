@@ -14,6 +14,9 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   tf2
 )
+add_definitions(-std=c++11)
+find_package(lcm REQUIRED)
+include_directories(include)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -150,6 +153,10 @@ target_link_libraries(publish_static_goal ${catkin_LIBRARIES})
 
 add_executable(collision_check src/collision_check.cpp)
 target_link_libraries(collision_check ${catkin_LIBRARIES})
+
+add_executable(highpass src/highpass.cpp)
+target_link_libraries(highpass ${catkin_LIBRARIES} lcm)
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(teb_local_planner_tutorials_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

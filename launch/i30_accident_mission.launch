@@ -1,7 +1,10 @@
 <launch>
 
-  <node pkg="csv_to_map" type="add_points_in_localmap.py" name="add_points_in_localmap" />
-  <node pkg="teb_local_planner_tutorials" type="collision_check" name="collision_check" output="screen" >
+  <node pkg="csv_to_map" type="add_points_in_localmap.py" name="add_points_in_localmap" output="screen" />
+
+  <node pkg="teb_local_planner_tutorials" type="highpass" name="highpass" />
+
+  <node pkg="teb_local_planner_tutorials" type="collision_check" name="collision_check">
     <!--jaundae-->
     <!--param name="goal_x" value="-677.5085" />
     <param name="goal_y" value="4643.3402" /-->
@@ -19,10 +22,11 @@
     <!--param name="goal_x" value="320.8867" />
     <param name="goal_y" value="-845.8" /-->
 
-    <param name="collision_continuation_threshold" value="7" />
+    <param name="collision_continuation_threshold" value="10" />
     <!--param name="collision_distance_from_path" value="1.0" /-->
-    <param name="collision_distance_from_path" value="0.6" />
-    <param name="collision_distance_from_car" value="30.0" />
+    <!--param name="collision_distance_from_path" value="0.6" /-->
+    <param name="collision_distance_from_path" value="5.0" />
+    <param name="collision_distance_from_car" value="15.0" />
 
     <param name="accident_mission_num" value="6" />
   </node>
@@ -31,7 +35,7 @@
 
   <param name="/use_sim_time" value="false"/>
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base">
     <rosparam file="$(find teb_local_planner_tutorials)/cfg/i30_drive/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find teb_local_planner_tutorials)/cfg/i30_drive/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find teb_local_planner_tutorials)/cfg/i30_drive/local_costmap_params.yaml" command="load" />
