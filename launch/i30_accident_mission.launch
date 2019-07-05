@@ -1,6 +1,6 @@
 <launch>
 
-  <node pkg="csv_to_map" type="add_points_in_localmap.py" name="add_points_in_localmap" output="screen" />
+  <!--node pkg="csv_to_map" type="add_points_in_localmap.py" name="add_points_in_localmap" output="screen" /-->
 
   <node pkg="teb_local_planner_tutorials" type="highpass" name="highpass" />
 
@@ -25,7 +25,7 @@
     <param name="collision_continuation_threshold" value="10" />
     <!--param name="collision_distance_from_path" value="1.0" /-->
     <!--param name="collision_distance_from_path" value="0.6" /-->
-    <param name="collision_distance_from_path" value="1.0" />
+    <param name="collision_distance_from_path" value="1.7" />
     <param name="collision_distance_from_car" value="15.0" />
 
     <param name="accident_mission_num" value="6" />
